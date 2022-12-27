@@ -18,5 +18,4 @@
 
 # Following are public repositories.
 
-git clone --depth 1 --branch main https://github.com/castlecraft/cfe repos/castlecraft
-git clone --depth 1 --branch main https://github.com/castlecraft/microsoft_integration repos/microsoft_integration
+git clone --depth 1 --branch develop https://github.com/frappe/hrms.git repos/hrms
