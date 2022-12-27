@@ -1,27 +1,16 @@
-# syntax=docker/dockerfile:1.3
-
 ARG FRAPPE_VERSION
 ARG ERPNEXT_VERSION
 
 FROM frappe/bench:latest as assets
 
 ARG FRAPPE_VERSION
-ARG ERPNEXT_VERSION
+RUN bench init --version=${FRAPPE_VERSION} --skip-redis-config-generation --verbose --skip-assets /home/frappe/frappe-bench
 
-USER root
+WORKDIR /home/frappe/frappe-bench
 
-WORKDIR /builds
-
-RUN chown -R frappe:frappe /builds
-
-USER frappe
-
-RUN bench init --version=${FRAPPE_VERSION} --skip-redis-config-generation --verbose --skip-assets /builds/bench
-
-WORKDIR /builds/bench
-
-# Comment following if ERPNext not required
-RUN bench get-app --branch=${ERPNEXT_VERSION} --skip-assets --resolve-deps erpnext
+# Uncomment following if ERPNext is required
+# ARG ERPNEXT_VERSION
+# RUN bench get-app --branch=${ERPNEXT_VERSION} --skip-assets --resolve-deps erpnext
 
 COPY --chown=frappe:frappe repos apps
 
@@ -35,6 +24,6 @@ USER root
 
 RUN rm -fr /usr/share/nginx/html/assets
 
-COPY --from=assets /builds/bench/sites/assets /usr/share/nginx/html/assets
+COPY --from=assets /home/frappe/frappe-bench/sites/assets /usr/share/nginx/html/assets
 
 USER 1000
