@@ -19,3 +19,4 @@
 # Following are public repositories.
 
 git clone --depth 1 --branch develop https://github.com/frappe/hrms.git repos/hrms
+git clone --depth 1 --branch develop https://github.com/frappe/education.git repos/education
